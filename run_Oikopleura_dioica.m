@@ -1,6 +1,6 @@
 close all; clear all; clc
 global pets
-
+addpath(genpath('DEBtool_M'))
 pets = {'Oikopleura_dioica'};
 % check_my_pet(pets); 
 

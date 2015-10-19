@@ -19,8 +19,8 @@ par.k_J   = 0.001; free.k_J   = 0;   units.k_J   = '1/d';      label.k_J   = 'ma
 par.E_G   = 2800;  free.E_G   = 1;   units.E_G   = 'J/cm^3';   label.E_G   = '[E_G], spec cost for structure';
 par.E_Hb  = 2e-4;  free.E_Hb  = 1;   units.E_Hb  = 'J';        label.E_Hb  = 'maturity at birth';
 par.E_Hp  = 1.3e-2;    free.E_Hp  = 1;   units.E_Hp  = 'J';        label.E_Hp  = 'maturity at puberty';
-par.h_a   = 8e-7;  free.h_a   = 0;   units.h_a   = '1/d^2';    label.h_a   = 'Weibull aging acceleration';
-par.s_G   = 15.53;  free.s_G   = 0;   units.s_G   = '-';        label.s_G   = 'Gompertz stress coefficient';
+par.h_a   = 1e-6;  free.h_a   = 0;   units.h_a   = '1/d^2';    label.h_a   = 'Weibull aging acceleration';
+par.s_G   = 1e-4;  free.s_G   = 0;   units.s_G   = '-';        label.s_G   = 'Gompertz stress coefficient';
 
 %% auxiliary parameters
 par.T_A   = 11000;   free.T_A   = 0;    units.T_A = 'K';        label.T_A = 'Arrhenius temperature';
@@ -42,8 +42,6 @@ par.f2_Lomb2005 = 0.58;     free.f2_Lomb2005  = 1;    units.f2_Lomb2005 = '-'; l
 
 par.d_V = 0.12;
 par.d_E = 0.1679;
-par.d_VC = 0.06;
-par.d_EC = 0.084;
 
 %% Pack output:
 txtPar.units = units; txtPar.label = label; par.free = free; 

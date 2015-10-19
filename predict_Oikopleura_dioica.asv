@@ -44,27 +44,29 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
   % birth
   L_b = L_m * l_b;                  % cm, structural length at birth at f
   Lw_b = L_b/ del_M;                % cm, physical length at birth at f
-  Wd_b = 1e6 * d_VC * L_b^3 * (1 + f * w);       % g, dry weight at birth at f 
+  Wd_b = d_V * L_b^3 * (1 + f * w);       % g, dry weight at birth at f 
   aT_b = t_b/ k_M/ TC_ab;           % d, age at birth at f and T
 
   % puberty 
   L_p = L_m * l_p;                  % cm, structural length at puberty at f
   Lw_p = L_p/ del_M;                % cm, physical length at puberty at f
-  Wd_p = 1e6 * d_VC * L_p^3 *(1 + f * w);        % g, wet weight at puberty 
+  Wd_p = d_V * L_p^3 *(1 + f * w);        % g, wet weight at puberty 
   aT_p = t_p/ k_M/ TC_ap;           % d, age at puberty at f and T
 
   % ultimate
   l_i = f - l_T;                    % -, scaled ultimate length
   L_i = L_m * l_i;                  % cm, ultimate structural length at f
- 
-  %%%%%%%%%%%%%%%%%%%MAXV
-  %Lw_i = L_i/ del_M;                % cm, ultimate physical length at f
-    kT_M = k_M * TC_am; kT_J = k_J * TC_am;                % 1/d, correct k_M and k_J for temperature
+  Lw_i = L_i/ del_M;                % cm, ultimate physical length at f
+  %MAXV
+  kT_M = k_M * TC_am; kT_J = k_J * TC_am;                   % 1/d, correct k_M and k_J for temperature
   vT = v * TC_am;                                        % cm/d, energy conductance at T
-  ir_B = 3/ kT_M + 3 * f * L_m/ vT; r_B = 1/ ir_B;       % d, 1/von Bert growth rate
- % Wd_i = d_V * L_i^3 * (1 + f * w);       % g, ultimate wet weight 
-  %%%%%%%%%%%%%%%%%%%MAXV
+  ir_B = 3/ kT_M + 3 * f * L_m/ vT; r_B = 1/ ir_B;    % d, 1/von Bert growth rate
+  L_8 = L_i - (L_i - L_b) * exp( - r_B * 6.250); % cm, expected length at time
+  Lw_i = L_8/ del_M ;                                 % cm, total trunc length (see uni-var data)
  
+  W_8 = 1e6 * L_8^3 * d_VC * (1 + f * w); 
+  
+  Wd_i = d_V * L_i^3 * (1 + f * w);       % g, ultimate wet weight 
  
   % cum. reproduction at ultimate size at death
   pars_R = [kap; kap_R; g; k_J * TC_Ni; k_M  * TC_Ni; L_T; v  * TC_Ni; U_Hb/ TC_Ni; U_Hp/ TC_Ni]; % compose parameter vector at T
@@ -77,11 +79,6 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
   t_m = get_tm_s(pars_tm, f, l_b);      % -, scaled mean life span at T_ref
   aT_m = t_m/ k_M/ TC_am;               % d, mean life span at T
   
-  %%%%%%%%%%%%%%%%%%%MAXV
-  L_8 = L_i - (L_i - L_b) * exp( - r_B * aT_m);         % cm, expected length at time
-  Lw_i = L_8/ del_M ;                                    % cm, total trunc length (see uni-var data)
-  Wd_i = 1e6 * L_8^3 * d_VC * (1 + f * w); 
-  %%%%%%%%%%%%%%%%%%%MAXV
 %% pack to output
   prdData.ab = aT_b;
   prdData.ap = aT_p;

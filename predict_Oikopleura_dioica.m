@@ -44,13 +44,20 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
   % birth
   L_b = L_m * l_b;                  % cm, structural length at birth at f
   Lw_b = L_b/ del_M;                % cm, physical length at birth at f
-  Wd_b = 1e6 * d_VC * L_b^3 * (1 + f * w);       % g, dry weight at birth at f 
+%   Wc_b = 1e6 * d_VC * L_b^3 * (1 + f * w);       % mug, carbon weight at birth at f 
+   E = f * E_m * L_b^3;
+Wc_b = 1e6 * (L_b^3 * d_VC  + 12 * E/ mu_E); 
+
   aT_b = t_b/ k_M/ TC_ab;           % d, age at birth at f and T
 
   % puberty 
   L_p = L_m * l_p;                  % cm, structural length at puberty at f
   Lw_p = L_p/ del_M;                % cm, physical length at puberty at f
-  Wd_p = 1e6 * d_VC * L_p^3 *(1 + f * w);        % g, wet weight at puberty 
+%   Wc_p = 1e6 * d_VC * L_p^3 *(1 + f * w);        % mug, carbon weight at puberty 
+  E = f * E_m * L_p^3;
+Wc_p = 1e6 * (L_p^3 * d_VC  + 12 * E/ mu_E); 
+
+  
   aT_p = t_p/ k_M/ TC_ap;           % d, age at puberty at f and T
 
   % ultimate
@@ -62,7 +69,7 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
     kT_M = k_M * TC_am; kT_J = k_J * TC_am;                % 1/d, correct k_M and k_J for temperature
   vT = v * TC_am;                                        % cm/d, energy conductance at T
   ir_B = 3/ kT_M + 3 * f * L_m/ vT; r_B = 1/ ir_B;       % d, 1/von Bert growth rate
- % Wd_i = d_V * L_i^3 * (1 + f * w);       % g, ultimate wet weight 
+ % Wc_i = d_V * L_i^3 * (1 + f * w);       % g, ultimate wet weight 
   %%%%%%%%%%%%%%%%%%%MAXV
  
  
@@ -80,7 +87,9 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
   %%%%%%%%%%%%%%%%%%%MAXV
   L_8 = L_i - (L_i - L_b) * exp( - r_B * aT_m);         % cm, expected length at time
   Lw_i = L_8/ del_M ;                                    % cm, total trunc length (see uni-var data)
-  Wd_i = 1e6 * L_8^3 * d_VC * (1 + f * w); 
+%   Wc_i = 1e6 * L_8^3 * d_VC * (1 + f * w); 
+E = f * E_m * L_8^3;
+Wc_i = 1e6 * (L_8^3 * d_VC  + 12 * E/ mu_E); 
   %%%%%%%%%%%%%%%%%%%MAXV
 %% pack to output
   prdData.ab = aT_b;
@@ -89,9 +98,9 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
   prdData.Lb = Lw_b;
   prdData.Lp = Lw_p;
   prdData.Li = Lw_i;
-  prdData.Wdb = Wd_b;
-  prdData.Wdp = Wd_p;
-  prdData.Wdi = Wd_i;
+  prdData.Wcb = Wc_b;
+  prdData.Wcp = Wc_p;
+  prdData.Wci = Wc_i;
   prdData.Ni = NT_i;
   
 %% uni-variate data

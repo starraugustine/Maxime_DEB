@@ -27,7 +27,7 @@ metaData.family     = 'Oikopleuridae';
 metaData.species    = 'Oikopleura_dioica'; 
 metaData.species_en = 'Sea squirts'; 
 metaData.T_typical  = C2K(15); % K
-metaData.data_0     = {'ab'; 'ap'; 'am'; 'Lb'; 'Lp'; 'Li'; 'Wdb'; 'Wdp'; 'Wdi'; 'Ni'};                            % tags for different types of zero-variate data
+metaData.data_0     = {'ab'; 'ap'; 'am'; 'Lb'; 'Lp'; 'Li'; 'Wcb'; 'Wcp'; 'Wci'; 'Ni'};                            % tags for different types of zero-variate data
 metaData.data_1     = {'t-L_fT ','t-R_fT', 'X-pX', 't-JO_f'}; % tags for different types of uni-variate data
 
 metaData.COMPLETE   = 2.5; % using criteria of LikaKear2011
@@ -65,9 +65,9 @@ temp.am = C2K(15);  units.temp.am = 'K'; label.temp.am = 'temperature';
 data.Lb  = 0.0115;   units.Lb  = 'cm';   label.Lb  = 'total body length at birth';  bibkey.Lb  = 'Fenaux1998';     %0.0115 is total body length but gonad is nearly null
 data.Lp  = 0.0256;   units.Lp  = 'cm';   label.Lp  = 'trunk length at puberty';     bibkey.Lp  = 'Troedsson2002';  % STA-15 at 65h , tL=256.08
 data.Li  = 0.0626;   units.Li  = 'cm';   label.Li  = 'ultimate trunk length';       bibkey.Li  = 'Troedsson2002';  %STA-15 at 158h Body L = 921.31 and TL/tL = 0.68 
-data.Wdb = 0.015;    units.Wdb = 'mugC'; label.Wdb = 'dry weight at birth';         bibkey.Wdb = 'Troedsson2002';       %here again, this egg weight = 0.015 from Troedsson (a very lower value of 0.037 is reported in Lombard 2009)
-data.Wdp = 0.36;     units.Wdp = 'mugC'; label.Wdp = 'dry weight at puberty';       bibkey.Wdp = 'Troedsson2002';  %STA-15 tatLe 2 (a), at 65h, Body weight is 0.8 µg AFDW eq to 256.08 tL ; Cw is XpXumed as 0.45 AFDW in Nakamura 1997 (so 0.36 µgC) ; Cw=10^(-6.84)*tL^2.59 in Lopez-urrutia 2003 (so 0.24µC)
-data.Wdi = 6.48;     units.Wdi = 'mugC'; label.Wdi = 'ultimate dry weight';         bibkey.Wdi = 'Troedsson2002';  %-STA-15 tatLe 2 (a), at 158h, Body weight is 14.5 µg AFDW eq to 921.31 tL ; Cw is XpXumed as 0.45 AFDW in Nakamura 1997 (so 6.48µgC) ; Cw=10^(-6.84)*tL^2.59 in Lopez-urrutia 2003 (so 6.88µgC)
+data.Wcb = 0.015;    units.Wcb = 'mugC'; label.Wcb = 'carbon weight at birth';         bibkey.Wcb = 'Troedsson2002';       %here again, this egg weight = 0.015 from Troedsson (a very lower value of 0.037 is reported in Lombard 2009)
+data.Wcp = 0.36;     units.Wcp = 'mugC'; label.Wcp = 'carbon weight at puberty';       bibkey.Wcp = 'Troedsson2002';  %STA-15 tatLe 2 (a), at 65h, Body weight is 0.8 µg AFDW eq to 256.08 tL ; Cw is XpXumed as 0.45 AFDW in Nakamura 1997 (so 0.36 µgC) ; Cw=10^(-6.84)*tL^2.59 in Lopez-urrutia 2003 (so 0.24µC)
+data.Wci = 6.48;     units.Wci = 'mugC'; label.Wci = 'ultimate carbon weight';         bibkey.Wci = 'Troedsson2002';  %-STA-15 tatLe 2 (a), at 158h, Body weight is 14.5 µg AFDW eq to 921.31 tL ; Cw is XpXumed as 0.45 AFDW in Nakamura 1997 (so 6.48µgC) ; Cw=10^(-6.84)*tL^2.59 in Lopez-urrutia 2003 (so 6.88µgC)
 data.Ni  = 303;      units.Ni  = '#';    label.Ni  = 'number of eggs at death ';    bibkey.Ni  = 'Troedsson2002';  %note that a very lower value is reported in Lombard 2009 : 164
   % for an individual of ultimate length Li 
  temp.Ni = C2K(15);  units.temp.Ni = 'K'; label.temp.Ni = 'temperature';

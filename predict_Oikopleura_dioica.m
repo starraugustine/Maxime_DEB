@@ -45,8 +45,8 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
   L_b = L_m * l_b;                  % cm, structural length at birth at f
   Lw_b = L_b/ del_M;                % cm, physical length at birth at f
 %   Wc_b = 1e6 * d_VC * L_b^3 * (1 + f * w);       % mug, carbon weight at birth at f 
-   E = f * E_m * L_b^3;
-Wc_b = 1e6 * (L_b^3 * d_VC  + 12 * E/ mu_E); 
+  E = f * E_m * L_b^3;
+  Wc_b = 1e6 * (L_b^3 * d_VC  + 12 * E/ mu_E); 
 
   aT_b = t_b/ k_M/ TC_ab;           % d, age at birth at f and T
 
@@ -55,7 +55,7 @@ Wc_b = 1e6 * (L_b^3 * d_VC  + 12 * E/ mu_E);
   Lw_p = L_p/ del_M;                % cm, physical length at puberty at f
 %   Wc_p = 1e6 * d_VC * L_p^3 *(1 + f * w);        % mug, carbon weight at puberty 
   E = f * E_m * L_p^3;
-Wc_p = 1e6 * (L_p^3 * d_VC  + 12 * E/ mu_E); 
+  Wc_p = 1e6 * (L_p^3 * d_VC  + 12 * E/ mu_E); 
 
   
   aT_p = t_p/ k_M/ TC_ap;           % d, age at puberty at f and T
@@ -74,9 +74,9 @@ Wc_p = 1e6 * (L_p^3 * d_VC  + 12 * E/ mu_E);
  
  
   % cum. reproduction at ultimate size at death
-  pars_R = [kap; kap_R; g; k_J * TC_Ni; k_M  * TC_Ni; L_T; v  * TC_Ni; U_Hb/ TC_Ni; U_Hp/ TC_Ni]; % compose parameter vector at T
-  time = tdeath.Ni;
-  NT_i = cum_reprod(time, f, pars_R, L_b);
+ % pars_R = [kap; kap_R; g; k_J * TC_Ni; k_M  * TC_Ni; L_T; v  * TC_Ni; U_Hb/ TC_Ni; U_Hp/ TC_Ni]; % compose parameter vector at T
+ % time = tdeath.Ni;
+ % NT_i = cum_reprod(time, f, pars_R, L_b);
 %   RT_i = TC_Ri * reprod_rate(L_i, f, pars_R);             % #/d, ultimate reproduction rate at T
 
   % life span
@@ -84,12 +84,17 @@ Wc_p = 1e6 * (L_p^3 * d_VC  + 12 * E/ mu_E);
   t_m = get_tm_s(pars_tm, f, l_b);      % -, scaled mean life span at T_ref
   aT_m = t_m/ k_M/ TC_am;               % d, mean life span at T
   
+  % cum. reproduction at ultimate size at death
+  pars_R = [kap; kap_R; g; k_J * TC_Ni; k_M  * TC_Ni; L_T; v  * TC_Ni; U_Hb/ TC_Ni; U_Hp/ TC_Ni]; % compose parameter vector at T
+  NT_i = cum_reprod(aT_m, f, pars_R, L_b);
   %%%%%%%%%%%%%%%%%%%MAXV
   L_8 = L_i - (L_i - L_b) * exp( - r_B * aT_m);         % cm, expected length at time
   Lw_i = L_8/ del_M ;                                    % cm, total trunc length (see uni-var data)
-%   Wc_i = 1e6 * L_8^3 * d_VC * (1 + f * w); 
-E = f * E_m * L_8^3;
-Wc_i = 1e6 * (L_8^3 * d_VC  + 12 * E/ mu_E); 
+  %   Wc_i = 1e6 * L_8^3 * d_VC * (1 + (f+eR) * w); 
+  [Ni, L, UT_E0] = cum_reprod(aT_m, f, pars_R);
+  eR = V_R * UT_E0 * Ni ./ (L_8 .^ 2)
+  E = (f+eR) * E_m * L_8^3;
+  Wc_i = 1e6 * (L_8^3 * d_VC  + 12 * E/ mu_E); 
   %%%%%%%%%%%%%%%%%%%MAXV
 %% pack to output
   prdData.ab = aT_b;

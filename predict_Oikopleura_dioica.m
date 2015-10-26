@@ -53,9 +53,9 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
   % puberty 
   L_p = L_m * l_p;                  % cm, structural length at puberty at f
   Lw_p = L_p/ del_M;                % cm, physical length at puberty at f
-%   Wc_p = 1e6 * d_VC * L_p^3 *(1 + f * w);        % mug, carbon weight at puberty 
-  E = f * E_m * L_p^3;
-  Wc_p = 1e6 * (L_p^3 * d_VC  + 12 * E/ mu_E); 
+  W_p = 1e6 * d_V * L_p^3 *(1 + f * w);        % mug, AFD weight at puberty 
+ % E = f * E_m * L_p^3;
+ % Wc_p = 1e6 * (L_p^3 * d_VC  + 12 * E/ mu_E); 
 
   
   aT_p = t_p/ k_M/ TC_ap;           % d, age at puberty at f and T
@@ -90,11 +90,14 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
   %%%%%%%%%%%%%%%%%%%MAXV
   L_8 = L_i - (L_i - L_b) * exp( - r_B * aT_m);         % cm, expected length at time
   Lw_i = L_8/ del_M ;                                    % cm, total trunc length (see uni-var data)
-  %   Wc_i = 1e6 * L_8^3 * d_VC * (1 + (f+eR) * w); 
+   
   [Ni, L, UT_E0] = cum_reprod(aT_m, f, pars_R);
-  eR = V_R * UT_E0 * Ni ./ (L_8 .^ 2)
-  E = (f+eR) * E_m * L_8^3;
-  Wc_i = 1e6 * (L_8^3 * d_VC  + 12 * E/ mu_E); 
+ % U_E^0 = E_0/ {p_Am}; e = E/ L^3/ [E_m] = v * E/ L^3/ {p_Am} = v * U_E/ L^3
+  eR = v * UT_E0 * Ni/ kap_R / L_8^ 3; % -, scaled cumulative reproduction buffer density
+  % This assumes that reproduction overheads are paid at the conversion of the buffer to eggs
+ W_i = 1e6 * L_8^3 * d_V * (1 + (f+eR) * w);
+  % E = (f+eR) * E_m * L_8^3;
+ % Wc_i = 1e6 * (L_8^3 * d_VC  + 12 * E/ mu_E); 
   %%%%%%%%%%%%%%%%%%%MAXV
 %% pack to output
   prdData.ab = aT_b;
@@ -104,8 +107,8 @@ function [prdData, info] = predict_Oikopleura_dioica(par, data, auxData)
   prdData.Lp = Lw_p;
   prdData.Li = Lw_i;
   prdData.Wcb = Wc_b;
-  prdData.Wcp = Wc_p;
-  prdData.Wci = Wc_i;
+  prdData.Wp = W_p;
+  prdData.Wi = W_i;
   prdData.Ni = NT_i;
   
 %% uni-variate data
